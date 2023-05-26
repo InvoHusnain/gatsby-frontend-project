@@ -1,14 +1,21 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import "../styles/crudStyles.css";
 
 const Interface = () => {
   const [myData, setMyData] = useState([]);
+  const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [modifiedData, setModifiedData] = useState({
     id: "",
     Title: "",
   });
   const [update, setUpdate] = useState(false);
+
+  const showListing = () => {
+    setShow(!show);
+  };
+
   const getAllArray = () => {
     axios.get("http://localhost:1337/api/posts-report").then((response) => {
       setMyData(response.data);
@@ -80,7 +87,8 @@ const Interface = () => {
   }, []);
 
   return (
-    <>
+    <div className="crud-wrapper">
+      <h1>CRUD</h1>
       <form onSubmit={handleSubmit}>
         <p>Title</p>
         <input
@@ -96,31 +104,36 @@ const Interface = () => {
           onChange={handleInputChange}
           value={modifiedData.id || ""}
         />
-        <button type="submit">Submit</button>
+        <div className="form-btn">
+          <button type="submit">Submit</button>
+        </div>
       </form>
+      <button onClick={showListing}>Show Listing</button>
       <p>Listed Data</p>
-      {myData.map((content, id) => {
-        return (
-          <p key={id}>
-            <span>{content.id} </span>
-            {content.Title}
-            <span>
-              <button onClick={() => handleDelete(content)}>Delete</button>
-            </span>
-            <span>
-              <button
-                onClick={() => {
-                  handleUpdate(content);
-                  setUpdate(!update);
-                }}
-              >
-                Update
-              </button>
-            </span>
-          </p>
-        );
-      })}
-    </>
+      {show
+        ? myData.map((content, id) => {
+            return (
+              <p key={id}>
+                <span>{content.id} </span>
+                {content.Title}
+                <span>
+                  <button onClick={() => handleDelete(content)}>Delete</button>
+                </span>
+                <span>
+                  <button
+                    onClick={() => {
+                      handleUpdate(content);
+                      setUpdate(!update);
+                    }}
+                  >
+                    Update
+                  </button>
+                </span>
+              </p>
+            );
+          })
+        : null}
+    </div>
   );
 };
 
