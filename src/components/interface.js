@@ -10,7 +10,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import BasicModal from "./modal";
 
 const Interface = () => {
   const {
@@ -21,6 +22,8 @@ const Interface = () => {
     modifiedData,
     showUpdate,
     myData,
+    update,
+    noData,
   } = useContext(DataContext);
 
   useEffect(() => {
@@ -34,25 +37,32 @@ const Interface = () => {
           color: "#ffffff",
         }}
       >
-        CRUD
+        CRUD APP
       </h1>
       <form onSubmit={handleSubmit}>
-        <p style={{ color: "#ffffff" }}>Title</p>
-        <input
-          type="text"
-          name="Title"
-          onChange={handleInputChange}
-          value={modifiedData?.Title || ""}
-        />
-        <p style={{ color: "#ffffff" }}>Id</p>
-        <input
-          type="number"
-          name="id"
-          onChange={handleInputChange}
-          value={modifiedData?.id || ""}
-        />
+        <Box className="form-wrapper">
+          <TextField
+            type="text"
+            name="Title"
+            onChange={handleInputChange}
+            value={modifiedData?.Title || ""}
+            label="Title"
+          />
+          <TextField
+            name="Description"
+            onChange={handleInputChange}
+            value={modifiedData?.Description || ""}
+            label="Description"
+          />
+        </Box>
         <div className="form-btn">
-          <button type="submit">Submit</button>
+          <Button
+            variant="outlined"
+            disabled={update ? true : false}
+            type="submit"
+          >
+            Submit
+          </Button>
         </div>
       </form>
       {/* <button onClick={showListing}>Show Listing</button>
@@ -66,25 +76,60 @@ const Interface = () => {
       </a> */}
       <TableContainer
         component={Paper}
-        sx={{ marginTop: "30px", maxWidth: 650, backgroundColor: "#091F39" }}
+        sx={{ marginTop: "30px", maxWidth: 800, backgroundColor: "#091F39" }}
       >
-        <Table sx={{ maxWidth: 650 }} aria-label="simple table">
+        <Table sx={{ maxWidth: 800 }} aria-label="simple table">
           <TableHead>
-            <Typography
+            <Box
               sx={{
-                color: "#ffffff",
-                fontSize: "30px",
-                fontWeight: "600",
                 paddingLeft: "20px",
+                minWidth: "200px",
               }}
             >
-              Listed Data
-            </Typography>
+              <Typography
+                sx={{
+                  color: "#ffffff",
+                  fontSize: "30px",
+                  fontWeight: "600",
+                  fontFamily: `"Poppins",sans-serif !important`,
+                }}
+              >
+                Listed Data
+              </Typography>
+            </Box>
             <TableRow>
-              <TableCell sx={{ color: "#ffffff" }}>Sr. No</TableCell>
-              <TableCell sx={{ color: "#ffffff" }}>ID</TableCell>
-              <TableCell sx={{ color: "#ffffff" }}>Name</TableCell>
-              <TableCell sx={{ color: "#ffffff" }}>Edit</TableCell>
+              <TableCell
+                sx={{
+                  color: "#ffffff",
+                  fontFamily: `"Poppins",sans-serif !important`,
+                }}
+              >
+                Sr. No
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "#ffffff",
+                  fontFamily: `"Poppins",sans-serif !important`,
+                }}
+              >
+                Name
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "#ffffff",
+                  fontFamily: `"Poppins",sans-serif !important`,
+                }}
+              >
+                Description
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "#ffffff",
+                  fontFamily: `"Poppins",sans-serif !important`,
+                }}
+              >
+                Edit
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -93,24 +138,53 @@ const Interface = () => {
                 key={id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  sx={{
+                    color: "#ffffff",
+                    fontFamily: `"Poppins",sans-serif !important`,
+                  }}
+                >
                   {id + 1}
                 </TableCell>
-                <TableCell component="th" scope="row">
-                  {content.id}
+                <TableCell
+                  sx={{
+                    color: "#ffffff",
+                    fontFamily: `"Poppins",sans-serif !important`,
+                  }}
+                >
+                  {content?.Title}
                 </TableCell>
-                <TableCell>{content.Title}</TableCell>
+                <TableCell
+                  sx={{
+                    color: "#ffffff",
+                    fontFamily: `"Poppins",sans-serif !important`,
+                  }}
+                >
+                  {content?.Description}
+                </TableCell>
                 <TableCell>
-                  <DriveFileRenameOutlineIcon
-                    onClick={() => showUpdate(content)}
-                  />
-                  <DeleteIcon onClick={() => handleDelete(content)} />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      columnGap: "10px",
+                    }}
+                  >
+                    <DriveFileRenameOutlineIcon
+                      sx={{ fill: "#ffffff", cursor: "pointer" }}
+                      onClick={() => showUpdate(content)}
+                    />
+                    <DeleteIcon
+                      sx={{ fill: "#ffffff", cursor: "pointer" }}
+                      onClick={() => handleDelete(content)}
+                    />
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <BasicModal />
     </div>
   );
 };

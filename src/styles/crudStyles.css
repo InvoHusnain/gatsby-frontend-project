@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 body {
   background-color: #0a1929;
+  font-family: "Poppins", sans-serif;
 }
 .crud-wrapper {
   display: flex;
@@ -8,15 +10,33 @@ body {
   flex-direction: column;
 }
 
-form {
+.form-wrapper {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  flex-direction: column;
+  column-gap: 10px;
 }
 
-.form-btn button {
+.MuiInputLabel-root {
+  color: rgba(240, 248, 255, 0.37) !important;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.MuiInputBase-input {
+  color: aliceblue !important;
+  border-color: aqua !important;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused {
+  border-color: red !important;
+}
+
+.form-btn {
   display: flex;
-  min-width: 100%;
   justify-content: end;
+  max-width: 100%;
+}
+.form-btn button {
+  margin-top: 10px;
 }

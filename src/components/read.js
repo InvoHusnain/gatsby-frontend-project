@@ -31,7 +31,7 @@ const Read = () => {
           <TableHead>
             <TableRow>
               <TableCell>Sr. No</TableCell>
-              <TableCell>ID</TableCell>
+              <TableCell>Description</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Edit</TableCell>
             </TableRow>
@@ -46,12 +46,7 @@ const Read = () => {
                   {id + 1}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <input
-                    type="number"
-                    name="id"
-                    onChange={handleInputChange}
-                    value={modifiedData?.id || ""}
-                  />
+                  {content?.Description}
                 </TableCell>
                 <TableCell>
                   <input

@@ -4,13 +4,15 @@ import axios from "axios";
 
 const DataProvider = ({ children }) => {
   const [update, setUpdate] = useState(false);
-
   const [myData, setMyData] = useState([]);
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [modifiedData, setModifiedData] = useState({
-    id: "",
     Title: "",
+    Description: "",
   });
 
   const showListing = () => {
@@ -29,21 +31,25 @@ const DataProvider = ({ children }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:1337/api/posts-report",
-        {
-          data: modifiedData,
-        }
-      );
-      console.log(response.data);
-      getAllArray();
-      setModifiedData({
-        id: "",
-        Title: "",
-      });
-    } catch (error) {
-      setError(error);
+    if (!modifiedData.Title || !modifiedData.Description) {
+      handleOpen();
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:1337/api/posts-report",
+          {
+            data: modifiedData,
+          }
+        );
+        console.log(response.data);
+        getAllArray();
+        setModifiedData({
+          Title: "",
+          Description: "",
+        });
+      } catch (error) {
+        setError(error);
+      }
     }
   };
 
@@ -61,12 +67,12 @@ const DataProvider = ({ children }) => {
         .catch((error) => {
           setError(error);
         });
-      setModifiedData({ Title: "", id: "" });
+      setModifiedData({ Title: "", Description: "" });
     } else {
       const myTitle = content.Title;
-      const myId = content.id;
+      const myDescription = content.Description;
 
-      setModifiedData({ Title: myTitle, id: myId });
+      setModifiedData({ Title: myTitle, Description: myDescription });
     }
   };
 
@@ -76,7 +82,7 @@ const DataProvider = ({ children }) => {
       .then((response) => {
         console.log(response);
         getAllArray();
-        setModifiedData({ Title: "", id: "" });
+        setModifiedData({ Title: "", Description: "" });
       })
       .catch((error) => {
         setError(error);
@@ -97,6 +103,10 @@ const DataProvider = ({ children }) => {
     handleSubmit,
     show,
     showUpdate,
+    update,
+    open,
+    handleOpen,
+    handleClose,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
