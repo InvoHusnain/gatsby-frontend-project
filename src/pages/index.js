@@ -1,6 +1,7 @@
 import * as React from "react";
+import DataProvider from "../contexts/DataProvider";
 // import { graphql } from "gatsby";
-import Interface from "./interface";
+import Interface from "../components/interface";
 
 const pageStyles = {
   color: "#232129",
@@ -32,9 +33,9 @@ const pageStyles = {
 
 const IndexPage = () => {
   return (
-    <>
+    <DataProvider>
       <Interface />
-    </>
+    </DataProvider>
   );
 };
 
